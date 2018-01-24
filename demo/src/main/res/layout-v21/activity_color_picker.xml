@@ -33,8 +33,8 @@
 
     <com.jaredrummler.android.colorpicker.ColorPickerView
         android:id="@id/cpv_color_picker_view"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:cpv_alphaChannelVisible="true"
         app:cpv_borderColor="#646464"/>
 

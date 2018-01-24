@@ -192,6 +192,7 @@ public class ColorPickerView extends View {
     //Load those if set in xml resource file.
     TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ColorPickerView);
     showAlphaPanel = a.getBoolean(R.styleable.ColorPickerView_cpv_alphaChannelVisible, false);
+    showAlphaPanel = false;
     alphaSliderText = a.getString(R.styleable.ColorPickerView_cpv_alphaChannelText);
     sliderTrackerColor = a.getColor(R.styleable.ColorPickerView_cpv_sliderColor, 0xFFBDBDBD);
     borderColor = a.getColor(R.styleable.ColorPickerView_cpv_borderColor, 0xFF6E6E6E);
@@ -267,8 +268,8 @@ public class ColorPickerView extends View {
     }
 
     drawSatValPanel(canvas);
-    drawHuePanel(canvas);
-    drawAlphaPanel(canvas);
+    /*drawHuePanel(canvas);*/
+    /*drawAlphaPanel(canvas);*/
   }
 
   private void drawSatValPanel(Canvas canvas) {
@@ -591,7 +592,7 @@ public class ColorPickerView extends View {
     int startX = startTouchPoint.x;
     int startY = startTouchPoint.y;
 
-    if (hueRect.contains(startX, startY)) {
+    if (false && hueRect.contains(startX, startY)) {
       hue = pointToHue(event.getY());
 
       update = true;
@@ -778,7 +779,7 @@ public class ColorPickerView extends View {
     int left = dRect.left + BORDER_WIDTH_PX;
     int top = dRect.top + BORDER_WIDTH_PX;
     int bottom = dRect.bottom - BORDER_WIDTH_PX;
-    int right = dRect.right - BORDER_WIDTH_PX - panelSpacingPx - huePanelWidthPx;
+    int right = dRect.right - BORDER_WIDTH_PX/* - panelSpacingPx - huePanelWidthPx*/;
 
     if (showAlphaPanel) {
       bottom -= (alphaPanelHeightPx + panelSpacingPx);
@@ -880,6 +881,17 @@ public class ColorPickerView extends View {
 
     invalidate();
   }
+
+  public void setHue(float hue, boolean callback) {
+    this.hue = hue;
+
+    if (callback && onColorChangedListener != null) {
+      onColorChangedListener.onColorChanged(Color.HSVToColor(this.alpha, new float[]{hue, sat, val}));
+    }
+
+    invalidate();
+  }
+
 
   /**
    * Set if the user is allowed to adjust the alpha panel. Default is false.
